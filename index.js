@@ -37,6 +37,11 @@ async function run() {
         res.send(result)
     })
 
+    app.get("/reviews", async (req, res) => {
+        const query = await myCollection.find().toArray();
+        res.send(query);
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
