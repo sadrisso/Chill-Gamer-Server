@@ -29,11 +29,18 @@ async function run() {
     // await client.connect();
 
     const myCollection = client.db("gameServer").collection("games")
+    const watchCollection = client.db("gameServer").collection("watchCollection")
 
 
     app.post("/reviews", async (req, res) => {
         const data = req.body;
         const result = await myCollection.insertOne(data)
+        res.send(result)
+    })
+
+    app.post("/watch-list", async (req, res) => {
+        const data = req.body;
+        const result = await watchCollection.insertOne(data)
         res.send(result)
     })
 
@@ -50,6 +57,14 @@ async function run() {
         const result = await myCollection.findOne(filter)
         res.send(result)
     })
+
+    app.get("/watch-list/:email", async (req, res) => {
+        const email = req.params.email;
+        const filter = {email: email};
+        const result = await watchCollection.findOne(filter)
+        res.send(result)
+    })
+
 
 
     // Send a ping to confirm a successful connection
